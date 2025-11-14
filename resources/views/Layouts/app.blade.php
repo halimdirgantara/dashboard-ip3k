@@ -10,7 +10,10 @@
     <div class="flex">
         {{-- Sidebar --}}
         <aside class="w-64 bg-blue-900 text-white min-h-screen p-4">
-            <h2 class="text-lg font-bold mb-6">IP3K Dashboard</h2>
+    <div class="flex items-center justify-start gap-1 mb-2">
+    <img src="{{ asset('images/logo-skd.png') }}" alt="Logo Sekadau" class="w-15 ml-4">
+    <img src="{{ asset('images/logo-ip3k.png') }}" alt="Logo IP3K" class="w-24">
+    </div>
             <nav class="space-y-2">
                 <a href="/" class="block py-2 px-3 rounded hover:bg-blue-700">🏠 Beranda</a>
                 <a href="#" class="block py-2 px-3 rounded hover:bg-blue-700">📊 Data Infrastruktur</a>
