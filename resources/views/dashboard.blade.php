@@ -64,28 +64,44 @@
         </div>
     </div>
 </div>
-
     <!-- BOX Data -->
-    <div class="grid grid-cols-3 gap-4">
-    <!-- Tren Panjang Jalan -->
-    <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-card h-64">
-        <h2 class="font-semibold mb-2">Tren Panjang Jalan</h2>
-        <canvas id="trenJalanChart"></canvas>
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+     <!-- Tren Panjang Jalan -->
+    <div class="bg-[#E3F2FD] p-6 rounded-2xl shadow-lg h-80">
+        <h2 class="font-semibold mb-4 text-lg">Tren Panjang Jalan</h2>
+        <canvas id="trenJalanChart" class="max-h-[220px] w-[220px]"></canvas>
     </div>
-        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-card h-64">🟢 Status Jembatan</div>
-        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-card h-64">📈 Hasil Panen</div>
+    <!--Status Jembatan-->
+    <div class="bg-[#E3F2FD] p-6 rounded-2xl shadow-lg h-80">
+    <h2 class="font-semibold mb-4 text-lg">Status Jembatan</h2>
+        <div class="flex items-start gap-6 h-full justify-end">
+            <canvas id="statusJembatanChart" class="max-h-[215px] w-[220px]"></canvas>
+        <div class="text-sm space-y-3">
+            <p class="flex items-center gap-2"><span class="w-3 h-3 aspect-square rounded-full bg-[#4CAF50]"></span> Baik</p>
+            <p class="flex items-center gap-2"><span class="w-3 h-3 aspect-square rounded-full bg-[#FFC107]"></span> Rusak Ringan</p>
+            <p class="flex items-center gap-2"><span class="w-3 h-3 aspect-square rounded-full bg-[#F44336]"></span> Rusak Berat</p>
+        </div>
     </div>
+</div>
+</div>
+    <!-- Hasil Panen-->
+    <div class="bg-[#dff0ff] p-6 rounded-2xl shadow-lg h-80 mt-10">
+    <h2 class="text-lg font-semibold mb-4">Hasil Panen</h2>
+    <canvas id="hasilPanenChart" class="max-h-[220px] w-[220px]"></canvas>
+</div>
 
-    <div class="grid grid-cols-2 gap-4 mt-6">
-        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-card h-64">📋 Daftar Proyek</div>
-        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-card h-64">🗺️ Pemetaan SIG</div>
+<!-- DATA BOX BAWAH-->
+    <div class="grid grid-cols-2 md:grid-cols-2 gap-6 mt-10">
+        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-lg h-64">📋 Daftar Proyek</div>
+        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-lg h-64">🗺️ Pemetaan SIG</div>
     </div>
 
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const ctx1 = document.getElementById('trenJalanChart');
 
+    // Chart 1 - Batang
+    const ctx1 = document.getElementById('trenJalanChart');
     new Chart(ctx1, {
         type: 'bar',
         data: {
@@ -93,12 +109,22 @@ document.addEventListener("DOMContentLoaded", function () {
             datasets: [{
                 label: 'Panjang Jalan (KM)',
                 data: [150, 200, 260, 300, 350, 400, 450, 500],
-                backgroundColor: '#60A5FA',    // biru soft
+                backgroundColor: [
+                '#4CAF50', // 2020
+                '#F44336', // 2021
+                '#FF9800', // 2022
+                '#4CAF50', // 2023
+                '#F44336', // 2024
+                '#FF9800', // 2025
+                '#4CAF50', // 2026
+                '#F44336'  // 2027
+                ],
                 borderRadius: 6,               // rounded bar
                 barThickness: 25               // ketebalan bar
             }]
         },
         options: {
+            responsive: true,
             maintainAspectRatio: false,
             scales: {
                 y: { beginAtZero: true }
@@ -110,8 +136,69 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+// Chart 2 - Donut
+const ctx2 = document.getElementById('statusJembatanChart');
+new Chart(ctx2, {
+    type: 'doughnut',
+    data: {
+        labels: ['Baik', 'Rusak Ringan', 'Rusak Berat'],
+        datasets: [{
+            data: [75, 15, 10],
+            backgroundColor: [
+                '#4CAF50', // Baik
+                '#FF9800', // Rusak Ringan
+                '#F44336'  // Rusak Berat
+            ],
+            hoverOffset: 8
+        }]
+    },
+    options: {
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false   // HILANGKAN LEGEND DEFAULT
+            }
+        },
+        cutout: '65%'
+    }
+});
+const ctx = document.getElementById('hasilPanenChart').getContext('2d');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ["2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027"],
+    datasets: [{
+      label: "Hasil Panen",
+      data: [1000, 1200, 2000, 3200, 3500, 4200, 4500, 4400],
+      borderColor: "#000",              
+      borderWidth: 1,
+      tension: 0.3,                      
+      pointRadius: 6,                    
+      pointBackgroundColor: [
+        "#4CAF50", "#FFC107", "#F44336", "#4CAF50",
+        "#F44336", "#4CAF50", "#FFC107", "#4CAF50"
+      ]                                 
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    },
+    plugins: {
+      legend: { display: false }         // sembunyikan legend
+    }
+  }
+});
+
 });
 </script>
+
 @endpush
 
 @endsection
