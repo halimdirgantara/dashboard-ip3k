@@ -7,7 +7,7 @@
     </header>
 
     <!-- Section Statistik + Search -->
-    <div class="px-1 mt-5 max-w-[1400px] mx-auto">
+    <div class="px-1 mt-5 mx-auto w-full">
     <!-- Search -->
       <div class="flex justify-between items-center mb-4">
       <div class="relative w-full md:w-60 lg:w-72">
@@ -23,7 +23,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       
         <!-- Card 1 -->
-        <div class="relative bg-[#E3F2FD] p-4 rounded-xl shadow-sm">
+        <div class="relative bg-[#E3F2FD] w-full p-4 rounded-xl shadow-sm">
          <!-- Icon panah -->
         <a href="#" class="absolute top-3 right-3">
         <!-- Heroicons Arrow Top Right -->
@@ -34,7 +34,7 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="relative bg-[#E3F2FD] p-4 rounded-xl shadow-sm">
+        <div class="relative bg-[#E3F2FD] w-full p-4 rounded-xl shadow-sm">
         <!-- Icon panah -->
         <a href="#" class="absolute top-3 right-3">
         <!-- Heroicons Arrow Top Right -->
@@ -45,7 +45,7 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="relative bg-[#E3F2FD] p-4 rounded-xl shadow-sm">
+        <div class="relative bg-[#E3F2FD] w-full p-4 rounded-xl shadow-sm">
         <!-- Icon panah -->
         <a href="#" class="absolute top-3 right-3">
         <!-- Heroicons Arrow Top Right -->
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Card 4 -->
-        <div class="relative bg-[#E3F2FD] p-4 rounded-xl shadow-sm">
+        <div class="relative bg-[#E3F2FD] w-full p-4 rounded-xl shadow-sm">
         <!-- Icon panah -->
         <a href="#" class="absolute top-3 right-3">
         <!-- Heroicons Arrow Top Right -->
@@ -69,30 +69,29 @@
 </div>
 
     <!-- BOX Data -->
-   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+   <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> 
      <!-- Tren Panjang Jalan -->
-    <div class="bg-[#E3F2FD] p-6 rounded-2xl shadow-lg h-80">
+    <div class="bg-[#E3F2FD] w-full p-6 rounded-xl shadow mb-6">
         <h2 class="font-semibold mb-4 text-lg">Tren Panjang Jalan</h2>
-        <canvas id="trenJalanChart" class="max-h-[220px] w-[220px]"></canvas>
+        <canvas id="trenJalanChart" class="max-h-[220px] w-[220px] mr-10"></canvas>
     </div>
     <!--Status Jembatan-->
-    <div class="bg-[#E3F2FD] p-6 rounded-2xl shadow-lg h-80">
+    <div class="bg-[#E3F2FD] w-full p-6 rounded-xl shadow mb-6">
     <h2 class="font-semibold mb-4 text-lg">Status Jembatan</h2>
         <div class="flex items-start gap-6 h-full justify-end">
-            <canvas id="statusJembatanChart" class="max-h-[215px] w-[220px] mr-10"></canvas>
+        <canvas id="statusJembatanChart" class="max-h-[220px] w-[220px]"></canvas>
     </div>
 </div>
 </div>
     <!-- Hasil Panen-->
-    <div class="bg-[#dff0ff] p-6 rounded-2xl shadow-lg h-80 mt-10">
+    <div class="bg-[#dff0ff] w-full p-6 rounded-xl shadow mb-6 h-80">
     <h2 class="text-lg font-semibold mb-4">Hasil Panen</h2>
     <canvas id="hasilPanenChart" class="max-h-[220px] w-[220px]"></canvas>
 </div>
 
-<!-- DATA BOX BAWAH-->
-    <div class="grid grid-cols-2 md:grid-cols-2 gap-6 mt-10">
+
     <!-- Daftar Proyek -->
-<div class="bg-[#E3F2FD] rounded-xl shadow-lg p-5 w-full ">
+<div class="bg-[#E3F2FD] w-full p-6 rounded-xl shadow mb-6 h-80">
   <h2 class="text-lg font-semibold mb-4">Daftar Proyek</h2>
 
   <div class="overflow-x-auto">
@@ -135,49 +134,54 @@
   </div>
 </div>
 
-        <div class="bg-[#E3F2FD] p-4 rounded-xl shadow-lg h-64">🗺️ Pemetaan SIG</div>
-    </div>
+
+<!-- Pemetaan SIG -->
+<div class="bg-[#E3F2FD] p-6 rounded-xl shadow mb-6 h-80">🗺️ Pemetaan SIG</div>
+</div>
 
 @push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
     // Chart 1 - Batang
+    
+    const dataJalan = [
+      { tahun: '2020', panjang: 852.85 },
+      { tahun: '2021', panjang: 856.50 },
+      { tahun: '2022', panjang: 852.79 }
+    ];
+
     const ctx1 = document.getElementById('trenJalanChart');
+
     new Chart(ctx1, {
-        type: 'bar',
-        data: {
-            labels: ['2020','2021','2022','2023','2024','2025','2026','2027'],
-            datasets: [{
-                label: 'Panjang Jalan (KM)',
-                data: [150, 200, 260, 300, 350, 400, 450, 500],
-                backgroundColor: [
-                '#4CAF50', // 2020
-                '#F44336', // 2021
-                '#FF9800', // 2022
-                '#4CAF50', // 2023
-                '#F44336', // 2024
-                '#FF9800', // 2025
-                '#4CAF50', // 2026
-                '#F44336'  // 2027
-                ],
-                borderRadius: 6,               // rounded bar
-                barThickness: 25               // ketebalan bar
-            }]
+      type: 'bar',
+      data: {
+        labels: dataJalan.map(d => d.tahun),
+        datasets: [{
+          label: 'Panjang Jalan (KM)',
+          data: dataJalan.map(d => d.panjang),
+          backgroundColor: [
+            '#4CAF50', // 2020
+            '#F44336', // 2021
+            '#FF9800'  // 2022
+          ],
+          borderRadius: 6,
+          barThickness: 30
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true }
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: true }
-            },
-            plugins: {
-                legend: {
-                    display: false   // sembunyikan legend
-                }
-            }
+        plugins: {
+          legend: {
+            display: false
+          }
         }
-    });
+      }
+});
 
 // Chart 2 - Donut
 const ctx2 = document.getElementById('statusJembatanChart');
